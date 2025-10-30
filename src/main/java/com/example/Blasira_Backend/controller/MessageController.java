@@ -15,6 +15,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * API REST pour la messagerie privée entre utilisateurs.
+ * Sécurité: l'expéditeur est dérivé de l'utilisateur authentifié; aucune confiance
+ * n'est accordée au client pour fournir un identifiant d'expéditeur.
+ */
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor

@@ -14,10 +14,20 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+/**
+ * Service utilitaire pour la gestion des tokens JWT:
+ * - génération de tokens pour un utilisateur
+ * - extraction de claims (username, expiration)
+ * - validation (signature, expiration)
+ *
+ * Bonnes pratiques:
+ * - Externaliser la clé secrète et l'expiration dans la configuration (ex: application.properties)
+ * - Utiliser des clés suffisamment longues et sauvegardées de manière sécurisée
+ */
 @Service
 public class JwtService {
 
-    // Ceci devrait être une chaîne longue, aléatoire et stockée de manière sécurisée, externalisée dans application.properties
+    // IMPORTANT: externaliser cette clé (BASE64) via la configuration et ne pas la commiter en clair.
     private static final String SECRET_KEY = "a293b8f5c6e7d8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2a3";
 
     public String extractUsername(String token) {
@@ -38,6 +48,7 @@ public class JwtService {
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
+                // TODO: externaliser la durée de validité (ex: jwt.expirationMs)
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24)) // 24 heures
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();

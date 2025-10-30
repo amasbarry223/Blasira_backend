@@ -25,6 +25,16 @@ import java.util.stream.Collectors;
 /**
  * Implémentation de l'interface BookingService.
  */
+/**
+ * Règles métier de réservation:
+ * - Un conducteur ne peut pas réserver son propre trajet
+ * - Les réservations ne sont possibles que sur un trajet PLANNED
+ * - Application optionnelle de codes promo avant le paiement
+ *
+ * Concurrence:
+ * - Lors de la confirmation par le conducteur, on verrouille le trajet pour
+ *   éviter les conditions de course sur le nombre de places restantes.
+ */
 @Service
 @RequiredArgsConstructor
 public class BookingServiceImpl implements BookingService {
@@ -92,7 +102,7 @@ public class BookingServiceImpl implements BookingService {
             if (booking.getStatus() != BookingStatus.REQUESTED_BY_PASSENGER) {
                 throw new IllegalStateException("This booking is not awaiting confirmation.");
             }
-            // Verrouiller le trajet pour éviter les conditions de course sur les places disponibles
+            // Verrouille le trajet pour éviter que deux confirmations simultanées ne dépassent la capacité restante
             Trip trip = tripRepository.findAndLockById(booking.getTrip().getId())
                     .orElseThrow(() -> new IllegalArgumentException("Trip not found."));
 

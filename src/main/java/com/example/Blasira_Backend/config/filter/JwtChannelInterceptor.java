@@ -15,6 +15,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
+/**
+ * Intercepteur STOMP pour authentifier les connexions WebSocket via JWT.
+ * Lors de la commande CONNECT, le token est extrait des en-têtes STOMP
+ * et, s'il est valide, l'utilisateur est associé à la session.
+ */
 @Slf4j
 @Component
 @RequiredArgsConstructor

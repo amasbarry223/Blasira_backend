@@ -9,6 +9,13 @@ import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBr
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
+/**
+ * Configuration WebSocket/STOMP:
+ * - "/ws" comme endpoint SockJS pour l'établissement de la connexion
+ * - "/app" comme préfixe pour les messages applicatifs (@MessageMapping)
+ * - "/topic" comme préfixe des destinations brokerisées pour les abonnements clients
+ * - Intercepteur JWT pour authentifier les connexions WS
+ */
 @Configuration
 @EnableWebSocketMessageBroker
 @RequiredArgsConstructor

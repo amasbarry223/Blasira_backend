@@ -56,6 +56,7 @@ public class TripServiceImpl implements TripService {
         UserAccount user = userAccountRepository.findByEmail(currentUser.getUsername())
                 .orElseThrow(() -> new UserNotFoundException("Utilisateur authentifié non trouvé en base de données."));
 
+        // Récupère le profil conducteur lié à l'utilisateur
         DriverProfile driverProfile = driverProfileRepository.findById(user.getId())
                 .orElseThrow(() -> new DriverNotVerifiedException("Driver profile not found for authenticated user."));
         if (driverProfile == null || driverProfile.getStatus() != DriverProfileStatus.VERIFIED) {
@@ -64,6 +65,7 @@ public class TripServiceImpl implements TripService {
         }
 
         // 3. Récupérer le véhicule et vérifier qu'il appartient bien à l'utilisateur.
+        // Valide l'existence et la propriété du véhicule
         Vehicle vehicle = vehicleRepository.findById(request.getVehicleId())
                 .orElseThrow(() -> new VehicleNotFoundException("Véhicule non trouvé avec l'ID : " + request.getVehicleId()));
         if (!vehicle.getOwner().getId().equals(user.getId())) {

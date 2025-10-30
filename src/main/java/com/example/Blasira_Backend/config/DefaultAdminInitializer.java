@@ -18,6 +18,13 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Initialise un compte administrateur par défaut au démarrage si aucun n'existe.
+ *
+ * ATTENTION:
+ * - Les identifiants par défaut (email/mot de passe) sont uniquement pour le développement.
+ * - Externaliser ces valeurs et désactiver ce runner en production.
+ */
 @Component
 @RequiredArgsConstructor
 public class DefaultAdminInitializer implements CommandLineRunner {
@@ -36,7 +43,8 @@ public class DefaultAdminInitializer implements CommandLineRunner {
             // Create UserAccount
             UserAccount adminUser = new UserAccount();
             adminUser.setEmail(adminEmail);
-            adminUser.setPassword(passwordEncoder.encode("admin")); // Default password
+            // Mot de passe par défaut. Externaliser et remplacer en production.
+            adminUser.setPassword(passwordEncoder.encode("admin"));
             adminUser.setPhoneNumber("+1112223333");
             adminUser.setEmailVerified(true);
             adminUser.setPhoneVerified(true);

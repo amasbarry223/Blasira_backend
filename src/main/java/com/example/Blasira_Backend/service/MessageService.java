@@ -17,6 +17,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Service métier de messagerie:
+ * - crée une conversation si elle n'existe pas entre deux participants
+ * - persiste les messages et renvoie l'historique ordonné
+ *
+ * Invariant: seul un participant à la conversation peut consulter les messages.
+ */
 @Service
 @RequiredArgsConstructor
 public class MessageService {

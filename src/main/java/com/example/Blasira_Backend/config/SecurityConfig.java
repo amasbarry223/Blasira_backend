@@ -63,7 +63,7 @@ public class SecurityConfig {
                 .authenticationProvider(authenticationProvider())
 
                 // 5. Ajout de notre filtre JWT personnalisé avant le filtre d'authentification standard de Spring.
-                // Ce filtre interceptera chaque requête pour valider le token JWT.
+                // Ce filtre intercepte chaque requête et autorise l'accès si le JWT est valide.
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
